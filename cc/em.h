@@ -31,6 +31,8 @@ public:
                    Eigen::VectorXd mean,
                    Eigen::MatrixXd sigma ) const;
 
+  Eigen::VectorXd sample(unsigned int nr_iterations) const;
+
   //std::vector<std::vector<float>> GetRandomPsd(unsigned int n);
 
 private:

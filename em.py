@@ -62,13 +62,20 @@ def e_step(x, params):
 
     print("*")
     print(np.log([1-params["phi"], params["phi"]])[np.newaxis, ...])
-    print(stats.multivariate_normal(params["mu0"], params["sigma0"]))
+    print(np.log([stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x),
+                        stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)]))
     print("*")
 
     log_p_y_x = np.log([1-params["phi"], params["phi"]])[np.newaxis, ...] + \
                 np.log([stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x),
-            stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)]).T
+                        stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)]).T
+    
+    print("log_p_y_x", log_p_y_x)
+
     log_p_y_x_norm = logsumexp(log_p_y_x, axis=1)
+
+    print("log_p_y_x_norm", log_p_y_x_norm)
+    
     return log_p_y_x_norm, np.exp(log_p_y_x - log_p_y_x_norm[..., np.newaxis])
 
 
