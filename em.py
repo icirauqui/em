@@ -45,8 +45,26 @@ def learn_params(x_labeled, y_labeled):
 
 
 def e_step(x, params):
-    np.log([stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x),
-            stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)])
+    #print()
+    #print(stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x))
+    #print(stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x))
+    #print()
+    #print("mu0", params["mu0"])
+    #print("sigma0", params["sigma0"])
+
+    #np.log([stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x),
+    #        stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)])
+
+    #print()
+    #print(stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x))
+    #print(stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x))
+    #print()
+
+    print("*")
+    print(np.log([1-params["phi"], params["phi"]])[np.newaxis, ...])
+    print(stats.multivariate_normal(params["mu0"], params["sigma0"]))
+    print("*")
+
     log_p_y_x = np.log([1-params["phi"], params["phi"]])[np.newaxis, ...] + \
                 np.log([stats.multivariate_normal(params["mu0"], params["sigma0"]).pdf(x),
             stats.multivariate_normal(params["mu1"], params["sigma1"]).pdf(x)]).T
@@ -74,13 +92,22 @@ def m_step(x, params):
 
 def get_avg_log_likelihood(x, params):
     loglikelihood, _ = e_step(x, params)
+    #print()
+    #print("loglikelihood")
+    #print(loglikelihood)
+
+    #print()
+    #print("_")
+    #print(_)
     return np.mean(loglikelihood)
 
 
 def run_em(x, params):
     avg_loglikelihoods = []
     while True:
+        print(" - - - - - - - - - - - - - - - - ")
         avg_loglikelihood = get_avg_log_likelihood(x, params)
+        print(avg_loglikelihood)
         avg_loglikelihoods.append(avg_loglikelihood)
         if len(avg_loglikelihoods) > 2 and abs(avg_loglikelihoods[-1] - avg_loglikelihoods[-2]) < 0.0001:
             break
@@ -143,6 +170,7 @@ if __name__ == '__main__':
     plt.savefig("unsupervised.png")
     plt.close()
 
+"""
     # Semi-supervised learning
     print("\nsemi-supervised: ")
     data_labeled = pd.read_csv("data/labeled.csv")
@@ -169,3 +197,4 @@ if __name__ == '__main__':
 
     print("\n%s%% of forecasts matched." % (output_df[output_df["semisupervised_forecasts"] == output_df["sklearn_forecasts"]].shape[0] /output_df.shape[0] * 100))
 
+"""

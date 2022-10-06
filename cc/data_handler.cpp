@@ -98,7 +98,7 @@ void DataHandlerTabular::split_labels(std::vector<std::vector<float>> &sets,
   for (auto &row : sets) {
     std::vector<float> row_x;
     std::vector<float> row_y;
-    for (int i = 0; i < row.size(); i++) {
+    for (unsigned int i = 0; i < row.size(); i++) {
       if (i == row.size() - 1) {
         row_y.push_back(row[i]);
       } else {
@@ -120,7 +120,7 @@ void DataHandlerTabular::split_dataset(std::vector<std::vector<float>> &sets_x,
                    std::vector<std::vector<float>> &test_y,
                    float train_ratio) {
 
-  int train_size = sets_x.size() * train_ratio;
+  unsigned int train_size = sets_x.size() * train_ratio;
 
   for (unsigned int i=0; i<sets_x.size(); i++) {
     if (i < train_size) {
